@@ -1,20 +1,34 @@
 import json
+<<<<<<< HEAD
 import os
 import random
 
 import torch
 import torch.nn as nn
 import torch.optim as optim
+=======
+import keyboard
+import os
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import SGDClassifier
+>>>>>>> 5240b3ea97db3765dea33a21169f79b749f0885c
 
 # ==========================================
 # CONFIG
 # ==========================================
 
+<<<<<<< HEAD
 ARQUIVO_MEMORIA = "pegcat_memoria.json"
 
 EPOCAS = 2000
 
 TAMANHO_OCULTO = 64
+=======
+ARQUIVO_MEMORIA = "memoria.json"
+
+modo_aprendizado = False
+>>>>>>> 5240b3ea97db3765dea33a21169f79b749f0885c
 
 # ==========================================
 # MEMÓRIA
@@ -22,6 +36,7 @@ TAMANHO_OCULTO = 64
 
 def carregar_memoria():
 
+<<<<<<< HEAD
     if os.path.exists(ARQUIVO_MEMORIA):
 
         with open(
@@ -33,15 +48,29 @@ def carregar_memoria():
             return json.load(f)
 
     return []
+=======
+    try:
+
+        with open(ARQUIVO_MEMORIA, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    except:
+
+        return []
+>>>>>>> 5240b3ea97db3765dea33a21169f79b749f0885c
 
 
 def salvar_memoria(dados):
 
+<<<<<<< HEAD
     with open(
         ARQUIVO_MEMORIA,
         "w",
         encoding="utf-8"
     ) as f:
+=======
+    with open(ARQUIVO_MEMORIA, "w", encoding="utf-8") as f:
+>>>>>>> 5240b3ea97db3765dea33a21169f79b749f0885c
 
         json.dump(
             dados,
@@ -52,7 +81,135 @@ def salvar_memoria(dados):
 
 
 # ==========================================
+<<<<<<< HEAD
 # DADOS INICIAIS
+=======
+# PREPARAR DADOS
+# ==========================================
+
+def separar_dados(dados):
+
+    frases = [
+        item["texto"]
+        for item in dados
+    ]
+
+    respostas = [
+        item["resposta"]
+        for item in dados
+    ]
+
+    return frases, respostas
+
+
+# ==========================================
+# IA
+# ==========================================
+
+def criar_vectorizer():
+
+    return TfidfVectorizer()
+
+
+def criar_modelo():
+
+    return SGDClassifier()
+
+
+# ==========================================
+# TREINAR
+# ==========================================
+
+def treinar_modelo(
+    modelo,
+    vectorizer,
+    frases,
+    respostas
+):
+
+    x = vectorizer.fit_transform(frases)
+
+    modelo.fit(x, respostas)
+
+
+# ==========================================
+# PREVER
+# ==========================================
+
+def prever(
+    modelo,
+    vectorizer,
+    texto
+):
+
+    teste = vectorizer.transform([texto])
+
+    resposta = modelo.predict(teste)[0]
+
+    return resposta
+
+
+# ==========================================
+# APRENDER
+# ==========================================
+
+def aprender(
+    dados,
+    texto,
+    resposta
+):
+
+    dados.append({
+
+        "texto": texto,
+        "resposta": resposta
+
+    })
+
+    salvar_memoria(dados)
+
+
+# ==========================================
+# TOGGLE APRENDIZADO
+# ==========================================
+
+def alternar_modo():
+
+    global modo_aprendizado
+
+    modo_aprendizado = not modo_aprendizado
+
+    if modo_aprendizado:
+
+        print("\n🧠 Modo aprendizado: ON\n")
+
+    else:
+
+        print("\n💬 Modo conversa: ON\n")
+def modoa():
+    texto = input("Você: ")
+
+    try:
+        resposta = prever(
+            modelo,
+            vectorizer,
+            texto
+        )
+
+        print("IA:", resposta)
+
+    except:
+
+        print("IA: Não sei responder isso ainda 😭")
+
+keyboard.add_hotkey(
+    "alt+l",
+    alternar_modo
+)
+
+# ==========================================
+# INICIAR MEMÓRIA
+>>>>>>> 5240b3ea97db3765dea33a21169f79b749f0885c
 # ==========================================
 
 dados = carregar_memoria()
@@ -62,6 +219,7 @@ if len(dados) == 0:
     dados = [
 
         {
+<<<<<<< HEAD
             "entrada": "oi",
             "resposta": "olá 😎"
         },
@@ -84,6 +242,20 @@ if len(dados) == 0:
         {
             "entrada": "tchau",
             "resposta": "até mais 👋"
+=======
+            "texto": "oi",
+            "resposta": "Olá 😎"
+        },
+
+        {
+            "texto": "tchau",
+            "resposta": "Até mais 👋"
+        },
+
+        {
+            "texto": "qual seu nome",
+            "resposta": "Sou uma IA em Python 😎"
+>>>>>>> 5240b3ea97db3765dea33a21169f79b749f0885c
         }
 
     ]
@@ -91,6 +263,7 @@ if len(dados) == 0:
     salvar_memoria(dados)
 
 # ==========================================
+<<<<<<< HEAD
 # VOCABULÁRIO
 # ==========================================
 
@@ -357,15 +530,40 @@ treinar()
 print("😼 PegcatAIT iniciada!")
 print("Digite /learn para ensinar")
 print("Digite /sair para fechar\n")
+=======
+# CRIAR IA
+# ==========================================
+
+frases, respostas = separar_dados(dados)
+
+vectorizer = criar_vectorizer()
+
+modelo = criar_modelo()
+
+treinar_modelo(
+    modelo,
+    vectorizer,
+    frases,
+    respostas
+)
+>>>>>>> 5240b3ea97db3765dea33a21169f79b749f0885c
 
 # ==========================================
 # LOOP
 # ==========================================
 
+<<<<<<< HEAD
+=======
+print("|----------|")
+print("|* Pegcat *|")
+print("|----------|")
+
+>>>>>>> 5240b3ea97db3765dea33a21169f79b749f0885c
 while True:
 
     texto = input("Você: ")
 
+<<<<<<< HEAD
     if texto == "/sair":
 
         break
@@ -379,3 +577,72 @@ while True:
     resposta = responder(texto)
 
     print("PegcatAIT:", resposta)
+=======
+    # =========================
+    # COMANDOS
+    # =========================
+
+    if texto == "/learn":
+
+        modo_aprendizado = True
+
+        print("🧠 Modo aprendizado ON")
+
+        continue
+    if texto == "/exit":
+        os._exit(0)
+    elif texto == "/chat":
+
+        modo_aprendizado = False
+
+        print("💬 Modo conversa ON")
+
+        continue
+
+    # =========================
+    # APRENDIZADO
+    # =========================
+
+    if modo_aprendizado:
+
+        resposta_correta = input(
+            "Resposta correta: "
+        )
+
+        aprender(
+            dados,
+            texto,
+            resposta_correta
+        )
+
+        frases, respostas = separar_dados(dados)
+
+        treinar_modelo(
+            modelo,
+            vectorizer,
+            frases,
+            respostas
+        )
+
+        print("🧠 Aprendi!")
+
+    # =========================
+    # CONVERSA
+    # =========================
+
+    else:
+
+        try:
+
+            resposta = prever(
+                modelo,
+                vectorizer,
+                texto
+            )
+
+            print("IA:", resposta)
+
+        except:
+
+            print("IA: Não sei responder 😭")
+>>>>>>> 5240b3ea97db3765dea33a21169f79b749f0885c
