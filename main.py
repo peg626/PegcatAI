@@ -1,5 +1,5 @@
 import json
-<<<<<<< HEAD
+
 from pylamp import ChatML
 import os
 if not os.path.exists("memoria.json"):
